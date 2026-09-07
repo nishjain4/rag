@@ -1,0 +1,38 @@
+# Local Python environment and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Generated application data
+chroma_index/
+uploaded_files/
+
+# Local model and tool caches
+.cache/
+.cache-huggingface/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Logs and local databases
+*.log
+*.sqlite
+*.sqlite3
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+embedding.py
+index.py
+st.py
