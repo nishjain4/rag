@@ -1,6 +1,6 @@
-import docx
-import PyPDF2
-from pptx import Presentation
+#import docx
+#import PyPDF2
+#from pptx import Presentation
 import pandas as pd
 import csv
 
@@ -42,7 +42,7 @@ def read_excel_file(file_path:str):
 
     return "\n".join(text)
 
-
+'''
 #read content from a text file
 
 def read_txt_file(file_path:str):
@@ -99,4 +99,4 @@ def read_pptx_file(file_path :str):
     return "\n".join(text)
 
 
-
+'''

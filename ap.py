@@ -4,7 +4,7 @@ from typing import List, Dict, Any, Optional
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from main import ask_question, upload_document, clear_database
+from main import answer_question, upload_document, clear_database, get_schema, get_system_prompt
 
 app = FastAPI()
 
@@ -47,12 +47,13 @@ async def upload_policy(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     try:
-        # Index the file into the vector database
+        # Build the DAX system prompt from the file's column names and data types
         doc_name = upload_document(save_path)
         return {
             "success": True,
             "fileName": doc_name,
             "length": os.path.getsize(save_path),
+            "schema": get_schema(),
             "message": "Document uploaded and ready for questions"
         }
     except Exception as e:
@@ -79,18 +80,30 @@ async def delete_policy(name: str | None = None):
     clear_database()
     return {"success": True, "message": "All documents cleared"}
 
+@app.get("/Schema")
+async def schema():
+    return {
+        "success": True,
+        "schema": get_schema(),
+        "systemPrompt": get_system_prompt(),
+    }
+
 @app.post("/Chat")
 async def chat(req: AskRequest):
     try:
-        # Ask the question using the uploaded document
-        answer = await ask_question(req.userQuery)
+        result = await answer_question(req.userQuery)
         return {
             "success": True,
-            "response": answer,
+            "response": result["answer"],
+            "intent": result["intent"],
+            "cached": result["cached"],
             "showVisual": False,
             "visualType": "none",
             "visualData": None,
-            "traceability": None
+            "traceability": {
+                "predictedOutput": result["predicted_output"],
+                "judge": result["judge"],
+            }
         }
     except ValueError as e:
         # Document not uploaded

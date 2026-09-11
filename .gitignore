@@ -33,6 +33,5 @@ uploaded_files/
 .DS_Store
 Thumbs.db
 
-embedding.py
-index.py
+
 st.py

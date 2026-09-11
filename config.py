@@ -34,6 +34,8 @@ CHROMA_DB_PATH = "chroma_index"
 
 COLLECTION_NAME = "documents"
 
+QUERY_CACHE_COLLECTION = "query_cache"
+
 # ===========================
 # Chunk Settings
 # ===========================
@@ -47,3 +49,17 @@ CHUNK_OVERLAP = 50
 # ===========================
 
 TOP_K = 4
+
+# ===========================
+# Query Cache
+# ===========================
+
+# cosine distance below which a past question is treated as the same question
+CACHE_DISTANCE_THRESHOLD = 0.12
+
+# ===========================
+# LLM-as-a-judge
+# ===========================
+
+ENABLE_JUDGE = True
+
