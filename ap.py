@@ -47,7 +47,7 @@ async def upload_policy(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     try:
-        # Build the DAX system prompt from the file's column names and data types
+        # Load the file into SQLite, replacing any previously uploaded document
         doc_name = upload_document(save_path)
         return {
             "success": True,
@@ -80,6 +80,7 @@ async def delete_policy(name: str | None = None):
     clear_database()
     return {"success": True, "message": "All documents cleared"}
 
+'''
 @app.get("/Schema")
 async def schema():
     return {
@@ -87,11 +88,13 @@ async def schema():
         "schema": get_schema(),
         "systemPrompt": get_system_prompt(),
     }
+'''
 
 @app.post("/Chat")
 async def chat(req: AskRequest):
     try:
         result = await answer_question(req.userQuery)
+        query_result = result.get("result") or {}
         return {
             "success": True,
             "response": result["answer"],
@@ -101,6 +104,9 @@ async def chat(req: AskRequest):
             "visualType": "none",
             "visualData": None,
             "traceability": {
+                "sql": result.get("sql", ""),
+                "columns": query_result.get("columns", []),
+                "rows": query_result.get("rows", []),
                 "predictedOutput": result["predicted_output"],
                 "judge": result["judge"],
             }
@@ -127,11 +133,3 @@ async def chat(req: AskRequest):
             "traceability": None
         }
 
-# Optional aliases for your existing app
-#@app.post("/upload")
-#async def upload_alias(file: UploadFile = File(...)):
-#    return await upload_policy(file)
-#
-#@app.post("/ask")
-#async def ask_alias(req: AskRequest):
-#    return await chat(req)

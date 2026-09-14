@@ -1,28 +1,5 @@
 
-import os
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
-# ===========================
-# API Key
-# ===========================
-
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
-
-# ===========================
-# Embedding Model
-# ===========================
-
-EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-
-
-# ===========================
-# LLM
-# ===========================
-
-LLM_MODEL = "openai/gpt-oss-120b"
 
 # ===========================
 # Paths
@@ -30,32 +7,18 @@ LLM_MODEL = "openai/gpt-oss-120b"
 
 UPLOAD_FOLDER = "uploaded_files"
 
-CHROMA_DB_PATH = "chroma_index"
-
-COLLECTION_NAME = "documents"
-
-QUERY_CACHE_COLLECTION = "query_cache"
-
 # ===========================
-# Chunk Settings
+# SQLite
 # ===========================
 
-CHUNK_SIZE = 500
+# the uploaded file is loaded into this database; it is rebuilt on every upload
+SQLITE_DB_PATH = "uploaded_data.db"
 
-CHUNK_OVERLAP = 50
+# hard cap on the rows a generated query may return
+MAX_QUERY_ROWS = 200
 
-# ===========================
-# Retrieval
-# ===========================
-
-TOP_K = 4
-
-# ===========================
-# Query Cache
-# ===========================
-
-# cosine distance below which a past question is treated as the same question
-CACHE_DISTANCE_THRESHOLD = 0.12
+# distinct sample values shown per column in the schema prompt
+SAMPLE_VALUES_PER_COLUMN = 5
 
 # ===========================
 # LLM-as-a-judge

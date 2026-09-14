@@ -26,6 +26,8 @@ uploaded_files/
 *.log
 *.sqlite
 *.sqlite3
+*.db
+*.xlsx
 
 # IDE and OS files
 .vscode/
@@ -35,3 +37,7 @@ Thumbs.db
 
 
 st.py
+rag_chatbot_tester.py
+RAG_Product_Query_Test_Cases(Test Cases).csv
+chatbot_product_test_cases 1(Test Cases).csv
+
